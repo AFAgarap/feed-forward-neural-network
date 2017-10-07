@@ -62,7 +62,7 @@ class MLP:
                 with tf.name_scope('weights'):
                     weight = tf.get_variable(name='weights',
                                              initializer=tf.random_normal([self.num_features, self.num_classes],
-                                                                           stddev=0.01))
+                                                                          stddev=0.01))
                     self.variable_summaries(weight)
                 with tf.name_scope('biases'):
                     bias = tf.get_variable(name='biases', initializer=tf.constant([0.1], shape=[self.num_classes]))
@@ -89,6 +89,22 @@ class MLP:
         """
         initial_value = tf.random_normal(shape=shape, stddev=0.01)
         return tf.get_variable(name='weights', initializer=initial_value)
+
+    @staticmethod
+    def bias_variable(shape):
+        """Initialize bias variable
+
+        Parameter
+        ---------
+        shape : list
+          The shape of the initialized value.
+
+        Returns
+        -------
+        The created `tf.get_variable` for biases.
+        """
+        initial_value = tf.constant([0.1], shape=shape)
+        return tf.get_variable(name='biases', initializer=initial_value)
 
     @staticmethod
     def variable_summaries(var):
