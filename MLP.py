@@ -75,6 +75,22 @@ class MLP:
             self.y_onehot = y_onehot
 
     @staticmethod
+    def weight_variable(shape):
+        """Initialize weight variable
+
+        Parameter
+        ---------
+        shape : list
+          The shape of the initialized value.
+
+        Returns
+        -------
+        The created `tf.get_variable` for weights.
+        """
+        initial_value = tf.random_normal(shape=shape, stddev=0.01)
+        return tf.get_variable(name='weights', initializer=initial_value)
+
+    @staticmethod
     def variable_summaries(var):
         with tf.name_scope('summaries'):
             mean = tf.reduce_mean(var)
