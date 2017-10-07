@@ -21,24 +21,32 @@ from __future__ import print_function
 __version__ = '0.1.0'
 __author__ = 'Abien Fred Agarap'
 
+import sys
 import tensorflow as tf
 
 
 class MLP:
     """Implementation of the Multilayer Perceptron using TensorFlow"""
 
-    def __init__(self, alpha, batch_size, num_classes, num_features):
+    def __init__(self, alpha, batch_size, node_size, num_classes, num_features):
         """Initialize the MLP model
 
         Parameter
         ---------
         alpha : float
+          The learning rate to be used by the neural network.
         batch_size : int
+          The number of batches to use for training/validation/testing.
+        node_size : int
+          The number of neurons in the neural network.
         num_classes : int
+          The number of classes in a dataset.
         num_features : int
+          The number of features in a dataset.
         """
         self.alpha = alpha
         self.batch_size = batch_size
+        self.node_size = node_size
         self.num_classes = num_classes
         self.num_features = num_features
 
@@ -57,6 +65,26 @@ class MLP:
 
             learning_rate = tf.placeholder(dtype=tf.float32, name='learning_rate')
 
+            first_hidden_layer = {'weights': self.weight_variable([self.num_features, self.node_size]),
+                                  'biases': self.bias_variable([self.node_size])}
+
+            second_hidden_layer = {'weights': self.weight_variable([self.node_size, self.node_size]),
+                                  'biases': self.bias_variable([self.node_size])}
+
+            third_hidden_layer = {'weights': self.weight_variable([self.node_size, self.node_size]),
+                                  'biases': self.bias_variable([self.node_size])}
+
+            output_layer = {'weights': self.weight_variable([self.node_size, self.num_classes]),
+                            'biases': self.bias_variable([self.num_classes])}
+
+            first_layer = tf.add(tf.matmul(x_input, first_hidden_layer['weights']), first_hidden_layer['biases'])
+
+            first_layer = tf.nn.relu(first_layer)
+
+            second_layer = tf.add(tf.matmul(first_layer, second_hidden_layer['weights']), second_hidden_layer['biases'])
+
+            second_layer = tf.nn.relu(second_layer)
+
             with tf.name_scope('training_ops'):
                 with tf.name_scope('weights'):
                     weight = tf.get_variable(name='weights',
@@ -73,6 +101,10 @@ class MLP:
             self.y_input = y_input
             self.y_onehot = y_onehot
             self.learning_rate = learning_rate
+
+        sys.stdout.write('\n<log> Building Graph...')
+        __graph__()
+        sys.stdout.write('</log>\n')
 
     @staticmethod
     def weight_variable(shape):
