@@ -85,22 +85,35 @@ class MLP:
 
             second_layer = tf.nn.relu(second_layer)
 
-            with tf.name_scope('training_ops'):
-                with tf.name_scope('weights'):
-                    weight = tf.get_variable(name='weights',
-                                             initializer=tf.random_normal([self.num_features, self.num_classes],
-                                                                          stddev=0.01))
-                    self.variable_summaries(weight)
-                with tf.name_scope('biases'):
-                    bias = tf.get_variable(name='biases', initializer=tf.constant([0.1], shape=[self.num_classes]))
-                    self.variable_summaries(bias)
-                with tf.name_scope('Wx_plus_b'):
-                    pass
+            third_layer = tf.add(tf.matmul(second_layer, third_hidden_layer['weights']), third_hidden_layer['biases'])
+
+            third_layer = tf.nn.relu(third_layer)
+
+            output_layer = tf.add(tf.matmul(third_layer, output_layer['weights']), output_layer['biases'])
+            tf.summary.histogram('pre-activations', output_layer)
+
+            with tf.name_scope('loss'):
+                loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output_layer, labels=y_onehot))
+            tf.summary.scalar('loss', loss)
+
+            optimizer_op = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
+
+            with tf.name_scope('accuracy'):
+                predicted_class = tf.nn.softmax(output_layer)
+                with tf.name_scope('correct_prediction'):
+                    correct_prediction = tf.equal(tf.argmax(predicted_class, 1), tf.argmax(y_onehot, 1))
+                with tf.name_scope('accuracy'):
+                    accuracy = tf.reduce_mean(tf.cast(correct_prediction, 'float'))
+            tf.summary.scalar('accuracy', accuracy)
 
             self.x_input = x_input
             self.y_input = y_input
             self.y_onehot = y_onehot
             self.learning_rate = learning_rate
+            self.loss = loss
+            self.optimizer_op = optimizer_op
+            self.predicted_class = predicted_class
+            self.accuracy = accuracy
 
         sys.stdout.write('\n<log> Building Graph...')
         __graph__()
