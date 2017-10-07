@@ -53,8 +53,7 @@ class MLP:
                 y_input = tf.placeholder(dtype=tf.uint8, shape=[None], name='y_input')
 
                 # [BATCH_SIZE, NUM_CLASSES]
-                y_onehot = tf.placeholder(indices=y_input, depth=self.num_classes, on_value=1, off_value=0,
-                                          name='y_onehot')
+                y_onehot = tf.one_hot(indices=y_input, depth=self.num_classes, on_value=1, off_value=0, name='y_onehot')
 
             learning_rate = tf.placeholder(dtype=tf.float32, name='learning_rate')
 
@@ -73,6 +72,7 @@ class MLP:
             self.x_input = x_input
             self.y_input = y_input
             self.y_onehot = y_onehot
+            self.learning_rate = learning_rate
 
     @staticmethod
     def weight_variable(shape):
