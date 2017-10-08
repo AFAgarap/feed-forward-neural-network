@@ -70,7 +70,7 @@ class MLP:
                                   'biases': self.bias_variable([self.node_size])}
 
             second_hidden_layer = {'weights': self.weight_variable([self.node_size, self.node_size]),
-                                  'biases': self.bias_variable([self.node_size])}
+                                   'biases': self.bias_variable([self.node_size])}
 
             third_hidden_layer = {'weights': self.weight_variable([self.node_size, self.node_size]),
                                   'biases': self.bias_variable([self.node_size])}
@@ -153,7 +153,7 @@ class MLP:
             sess.run(init_op)
 
             try:
-                for step in range(num_epochs * train_data // self.batch_size):
+                for step in range(num_epochs * train_size // self.batch_size):
                     offset = (step * self.batch_size) % train_size
                     train_data_batch = train_data[0][offset:(offset + self.batch_size)]
                     train_label_batch = train_data[1][offset:(offset + self.batch_size)]
