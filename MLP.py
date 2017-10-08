@@ -66,17 +66,17 @@ class MLP:
 
             learning_rate = tf.placeholder(dtype=tf.float32, name='learning_rate')
 
-            first_hidden_layer = {'weights': self.weight_variable([self.num_features, self.node_size]),
-                                  'biases': self.bias_variable([self.node_size])}
+            first_hidden_layer = {'weights': self.weight_variable('h1_w_layer', [self.num_features, self.node_size]),
+                                  'biases': self.bias_variable('h1_b_layer', [self.node_size])}
 
-            second_hidden_layer = {'weights': self.weight_variable([self.node_size, self.node_size]),
-                                   'biases': self.bias_variable([self.node_size])}
+            second_hidden_layer = {'weights': self.weight_variable('h2_w_layer', [self.node_size, self.node_size]),
+                                   'biases': self.bias_variable('h2_b_layer', [self.node_size])}
 
-            third_hidden_layer = {'weights': self.weight_variable([self.node_size, self.node_size]),
-                                  'biases': self.bias_variable([self.node_size])}
-
-            output_layer = {'weights': self.weight_variable([self.node_size, self.num_classes]),
-                            'biases': self.bias_variable([self.num_classes])}
+            third_hidden_layer = {'weights': self.weight_variable('h3_w_layer', [self.node_size, self.node_size]),
+                                  'biases': self.bias_variable('h3_b_layer', [self.node_size])}
+            
+            output_layer = {'weights': self.weight_variable('output_w_layer', [self.node_size, self.num_classes]),
+                            'biases': self.bias_variable('output_b_layer', [self.num_classes])}
 
             first_layer = tf.add(tf.matmul(x_input, first_hidden_layer['weights']), first_hidden_layer['biases'])
 
@@ -191,7 +191,7 @@ class MLP:
                         test_writer.add_summary(test_summary, step)
 
     @staticmethod
-    def weight_variable(shape):
+    def weight_variable(name, shape):
         """Initialize weight variable
 
         Parameter
@@ -204,10 +204,10 @@ class MLP:
         The created `tf.get_variable` for weights.
         """
         initial_value = tf.random_normal(shape=shape, stddev=0.01)
-        return tf.get_variable(name='weights', initializer=initial_value)
+        return tf.get_variable(name=name, initializer=initial_value)
 
     @staticmethod
-    def bias_variable(shape):
+    def bias_variable(name, shape):
         """Initialize bias variable
 
         Parameter
@@ -220,7 +220,7 @@ class MLP:
         The created `tf.get_variable` for biases.
         """
         initial_value = tf.constant([0.1], shape=shape)
-        return tf.get_variable(name='biases', initializer=initial_value)
+        return tf.get_variable(name=name, initializer=initial_value)
 
     @staticmethod
     def variable_summaries(var):
