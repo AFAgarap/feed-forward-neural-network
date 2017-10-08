@@ -147,7 +147,8 @@ class MLP:
 
         timestamp = str(time.asctime())
 
-        writer = tf.summary.FileWriter(log_path + timestamp + '-training', graph=tf.get_default_graph())
+        train_writer = tf.summary.FileWriter(log_path + timestamp + '-training', graph=tf.get_default_graph())
+        test_writer = tf.summary.FileWriter(log_path + timestamp + '-test', graph=tf.get_default_graph())
 
         with tf.Session() as sess:
             sess.run(init_op)
@@ -161,17 +162,33 @@ class MLP:
                     feed_dict = {self.x_input: train_data_batch, self.y_input: train_label_batch,
                                  self.learning_rate: self.alpha}
 
-                    summary, _, step_loss = sess.run([self.merged, self.optimizer_op, self.loss], feed_dict=feed_dict)
+                    train_summary, _, step_loss = sess.run([self.merged, self.optimizer_op, self.loss],
+                                                           feed_dict=feed_dict)
 
                     if step % 100 == 0 and step > 0:
                         train_accuracy = sess.run(self.accuracy, feed_dict=feed_dict)
                         print('step [{}] train -- loss : {}, accuracy : {}'.format(step, step_loss, train_accuracy))
-                        writer.add_summary(summary=summary, global_step=step)
+                        train_writer.add_summary(train_summary, global_step=step)
 
             except KeyboardInterrupt:
                 print('KeyboardInterrupt at step {}'.format(step))
             finally:
                 print('EOF -- Training done at step {}'.format(step))
+
+                for step in range(num_epochs * test_size // self.batch_size):
+                    offset = (step * self.batch_size) % test_size
+                    test_data_batch = test_data[0][offset:(offset + self.batch_size)]
+                    test_label_batch = test_data[1][offset:(offset + self.batch_size)]
+
+                    feed_dict = {self.x_input: test_data_batch, self.y_input: test_label_batch}
+
+                    test_summary, test_accuracy, test_loss, predictions, actual =\
+                        sess.run([self.merged, self.accuracy, self.loss, self.predicted_class, self.y_onehot],
+                                 feed_dict=feed_dict)
+
+                    if step % 100 == 0 and step > 0:
+                        print('step [{}] test -- loss : {}, accuracy : {}'.format(step, test_loss, test_accuracy))
+                        test_writer.add_summary(test_summary, step)
 
     @staticmethod
     def weight_variable(shape):
