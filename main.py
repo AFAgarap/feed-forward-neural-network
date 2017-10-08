@@ -59,12 +59,19 @@ def main(arguments):
     # load the labels for the features
     labels = datasets.load_breast_cancer().target
 
+    features = features[:550]
+    labels = labels[:550]
+
     train_features, test_features, train_labels, test_labels = train_test_split(features, labels, test_size=0.20,
                                                                                 stratify=labels)
 
     model = MLP.MLP(alpha=LEARNING_RATE, batch_size=BATCH_SIZE, node_size=NUM_NODES, num_classes=NUM_CLASSES,
                     num_features=num_features)
-    
+
+    model.train(num_epochs=arguments.num_epochs, log_path=arguments.log_path, train_data=[train_features, train_labels],
+                train_size=train_features.shape[0], test_data=[test_features, test_labels],
+                test_size=test_features.shape[0])
+
 
 if __name__ == '__main__':
     args = parse_args()
