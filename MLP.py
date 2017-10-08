@@ -21,6 +21,8 @@ from __future__ import print_function
 __version__ = '0.1.0'
 __author__ = 'Abien Fred Agarap'
 
+import numpy as np
+import os
 import sys
 import time
 import tensorflow as tf
@@ -121,7 +123,7 @@ class MLP:
         __graph__()
         sys.stdout.write('</log>\n')
 
-    def train(self, num_epochs, log_path, train_data, train_size, test_data, test_size):
+    def train(self, num_epochs, log_path, train_data, train_size, test_data, test_size, result_path):
         """Trains the MLP model
 
         Parameter
@@ -188,6 +190,9 @@ class MLP:
                         print('step [{}] test -- loss : {}, accuracy : {}'.format(step, test_loss, test_accuracy))
                         test_writer.add_summary(test_summary, step)
 
+                    self.save_labels(predictions=predictions, actual=actual, result_path=result_path, phase='testing',
+                                     step=step)
+
     @staticmethod
     def weight_variable(name, shape):
         """Initialize weight variable
@@ -231,3 +236,28 @@ class MLP:
             tf.summary.scalar('max', tf.reduce_max(var))
             tf.summary.scalar('min', tf.reduce_min(var))
             tf.summary.histogram('histogram', var)
+
+    @staticmethod
+    def save_labels(predictions, actual, result_path, phase, step):
+        """Saves the actual and predicted labels to a NPY file
+
+        Parameter
+        ---------
+        predictions : numpy.ndarray
+          The NumPy array containing the predicted labels.
+        actual : numpy.ndarray
+          The NumPy array containing the actual labels.
+        result_path : str
+          The path where to save the concatenated actual and predicted labels.
+        step : int
+          The time step for the NumPy arrays.
+        phase : str
+          The phase for which the predictions is, i.e. training/validation/testing.
+        """
+
+        # Concatenate the predicted and actual labels
+        labels = np.concatenate((predictions, actual), axis=1)
+
+        # save every labels array to NPY file
+        np.save(file=os.path.join(result_path, '{}-mlp-{}.npy'.format(phase, step)), arr=labels)
+
