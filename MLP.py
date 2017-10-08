@@ -66,38 +66,40 @@ class MLP:
 
             learning_rate = tf.placeholder(dtype=tf.float32, name='learning_rate')
 
-            first_hidden_layer = {'weights': self.weight_variable('h1_w_layer', [self.num_features, self.node_size]),
-                                  'biases': self.bias_variable('h1_b_layer', [self.node_size])}
+            first_hidden_layer = {'weights': self.weight_variable('h1_w_layer', [self.num_features, self.node_size[0]]),
+                                  'biases': self.bias_variable('h1_b_layer', [self.node_size[0]])}
 
-            second_hidden_layer = {'weights': self.weight_variable('h2_w_layer', [self.node_size, self.node_size]),
-                                   'biases': self.bias_variable('h2_b_layer', [self.node_size])}
+            second_hidden_layer = {'weights': self.weight_variable('h2_w_layer', [self.node_size[0],
+                                                                                  self.node_size[1]]),
+                                   'biases': self.bias_variable('h2_b_layer', [self.node_size[1]])}
 
-            third_hidden_layer = {'weights': self.weight_variable('h3_w_layer', [self.node_size, self.node_size]),
-                                  'biases': self.bias_variable('h3_b_layer', [self.node_size])}
-            
-            output_layer = {'weights': self.weight_variable('output_w_layer', [self.node_size, self.num_classes]),
+            third_hidden_layer = {'weights': self.weight_variable('h3_w_layer', [self.node_size[1], self.node_size[2]]),
+                                  'biases': self.bias_variable('h3_b_layer', [self.node_size[2]])}
+
+            output_layer = {'weights': self.weight_variable('output_w_layer', [self.node_size[2], self.num_classes]),
                             'biases': self.bias_variable('output_b_layer', [self.num_classes])}
+            output_layer_weights = tf.identity(output_layer['weights'], 'output_layer_weights')
+            self.variable_summaries(output_layer_weights)
+            output_layer_biases = tf.identity(output_layer['biases'], 'output_layer_biases')
+            self.variable_summaries(output_layer_biases)
 
-            first_layer = tf.add(tf.matmul(x_input, first_hidden_layer['weights']), first_hidden_layer['biases'])
-
+            first_layer = tf.matmul(x_input, first_hidden_layer['weights']) + first_hidden_layer['biases']
             first_layer = tf.nn.relu(first_layer)
 
-            second_layer = tf.add(tf.matmul(first_layer, second_hidden_layer['weights']), second_hidden_layer['biases'])
-
+            second_layer = tf.matmul(first_layer, second_hidden_layer['weights']) + second_hidden_layer['biases']
             second_layer = tf.nn.relu(second_layer)
 
-            third_layer = tf.add(tf.matmul(second_layer, third_hidden_layer['weights']), third_hidden_layer['biases'])
-
+            third_layer = tf.matmul(second_layer, third_hidden_layer['weights']) + third_hidden_layer['biases']
             third_layer = tf.nn.relu(third_layer)
 
-            output_layer = tf.add(tf.matmul(third_layer, output_layer['weights']), output_layer['biases'])
+            output_layer = tf.matmul(third_layer, output_layer['weights']) + output_layer['biases']
             tf.summary.histogram('pre-activations', output_layer)
 
             with tf.name_scope('loss'):
                 loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=output_layer, labels=y_onehot))
             tf.summary.scalar('loss', loss)
 
-            optimizer_op = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
+            optimizer_op = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
 
             with tf.name_scope('accuracy'):
                 predicted_class = tf.nn.softmax(output_layer)
