@@ -57,21 +57,21 @@ def list_files(path):
 def plot_confusion_matrix(phase, path, class_names):
     """Plots the confusion matrix using matplotlib.
 
-        Parameter
-        ---------
-        phase : str
-          String value indicating for what phase is the confusion matrix, i.e. training/validation/testing
-        path : str
-          Directory where the predicted and actual label NPY files reside
-        class_names : str
-          List consisting of the class names for the labels
+    Parameter
+    ---------
+    phase : str
+      String value indicating for what phase is the confusion matrix, i.e. training/validation/testing
+    path : str
+      Directory where the predicted and actual label NPY files reside
+    class_names : str
+      List consisting of the class names for the labels
 
-        Returns
-        -------
-        conf : array, shape = [num_classes, num_classes]
-          Confusion matrix
-        accuracy : float
-          Predictive accuracy
+    Returns
+    -------
+    conf : array, shape = [num_classes, num_classes]
+      Confusion matrix
+    accuracy : float
+      Predictive accuracy
     """
 
     # list all the results files
