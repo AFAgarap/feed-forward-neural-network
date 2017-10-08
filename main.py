@@ -27,10 +27,10 @@ from sklearn import datasets
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
-BATCH_SIZE = 40
-LEARNING_RATE = 1e-3
+BATCH_SIZE = 200
+LEARNING_RATE = 1e-2
 NUM_CLASSES = 2
-NUM_NODES = 500
+NUM_NODES = [500, 500, 500]
 
 
 def parse_args():
@@ -58,9 +58,6 @@ def main(arguments):
 
     # load the labels for the features
     labels = datasets.load_breast_cancer().target
-
-    features = features[:550]
-    labels = labels[:550]
 
     train_features, test_features, train_labels, test_labels = train_test_split(features, labels, test_size=0.20,
                                                                                 stratify=labels)
