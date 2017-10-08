@@ -41,6 +41,8 @@ def parse_args():
                        help='number of epochs')
     group.add_argument('-l', '--log_path', required=True, type=str,
                        help='path where to save the TensorBoard logs')
+    group.add_argument('-r', '--result_path', required=True, type=str,
+                       help='path where to save actual and predicted labels array')
     arguments = parser.parse_args()
     return arguments
 
@@ -67,7 +69,7 @@ def main(arguments):
 
     model.train(num_epochs=arguments.num_epochs, log_path=arguments.log_path, train_data=[train_features, train_labels],
                 train_size=train_features.shape[0], test_data=[test_features, test_labels],
-                test_size=test_features.shape[0])
+                test_size=test_features.shape[0], result_path=arguments.result_path)
 
 
 if __name__ == '__main__':
