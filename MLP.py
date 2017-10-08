@@ -78,10 +78,6 @@ class MLP:
 
             output_layer = {'weights': self.weight_variable('output_w_layer', [self.node_size[2], self.num_classes]),
                             'biases': self.bias_variable('output_b_layer', [self.num_classes])}
-            output_layer_weights = tf.identity(output_layer['weights'], 'output_layer_weights')
-            self.variable_summaries(output_layer_weights)
-            output_layer_biases = tf.identity(output_layer['biases'], 'output_layer_biases')
-            self.variable_summaries(output_layer_biases)
 
             first_layer = tf.matmul(x_input, first_hidden_layer['weights']) + first_hidden_layer['biases']
             first_layer = tf.nn.relu(first_layer)
