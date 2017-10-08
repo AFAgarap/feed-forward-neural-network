@@ -22,6 +22,7 @@ __version__ = '0.1.0'
 __author__ = 'Abien Fred Agarap'
 
 import sys
+import time
 import tensorflow as tf
 
 
@@ -106,6 +107,8 @@ class MLP:
                     accuracy = tf.reduce_mean(tf.cast(correct_prediction, 'float'))
             tf.summary.scalar('accuracy', accuracy)
 
+            merged = tf.summary.merge_all()
+
             self.x_input = x_input
             self.y_input = y_input
             self.y_onehot = y_onehot
@@ -114,10 +117,61 @@ class MLP:
             self.optimizer_op = optimizer_op
             self.predicted_class = predicted_class
             self.accuracy = accuracy
+            self.merged = merged
 
         sys.stdout.write('\n<log> Building Graph...')
         __graph__()
         sys.stdout.write('</log>\n')
+
+    def train(self, num_epochs, log_path, train_data, train_size, test_data, test_size):
+        """Trains the MLP model
+
+        Parameter
+        ---------
+        num_epochs : int
+          The number of passes over the entire dataset.
+        log_path : str
+          The path where to save the TensorBoard logs.
+        train_data : numpy.ndarray
+          The NumPy array to be used as training dataset.
+        train_size : int
+          The size of the `train_data`.
+        test_data : numpy.ndarray
+          The NumPy array to be used as testing dataset.
+        test_size : int
+          The size of the `test_data`.
+        """
+
+        # initialize the variables
+        init_op = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer())
+
+        timestamp = str(time.asctime())
+
+        writer = tf.summary.FileWriter(log_path + timestamp + '-training', graph=tf.get_default_graph())
+
+        with tf.Session() as sess:
+            sess.run(init_op)
+
+            try:
+                for step in range(num_epochs * train_data // self.batch_size):
+                    offset = (step * self.batch_size) % train_size
+                    train_data_batch = train_data[0][offset:(offset + self.batch_size)]
+                    train_label_batch = train_data[1][offset:(offset + self.batch_size)]
+
+                    feed_dict = {self.x_input: train_data_batch, self.y_input: train_label_batch,
+                                 self.learning_rate: self.alpha}
+
+                    summary, _, step_loss = sess.run([self.merged, self.optimizer_op, self.loss], feed_dict=feed_dict)
+
+                    if step % 100 == 0 and step > 0:
+                        train_accuracy = sess.run(self.accuracy, feed_dict=feed_dict)
+                        print('step [{}] train -- loss : {}, accuracy : {}'.format(step, step_loss, train_accuracy))
+                        writer.add_summary(summary=summary, global_step=step)
+
+            except KeyboardInterrupt:
+                print('KeyboardInterrupt at step {}'.format(step))
+            finally:
+                print('EOF -- Training done at step {}'.format(step))
 
     @staticmethod
     def weight_variable(shape):
