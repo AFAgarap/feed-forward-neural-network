@@ -8,7 +8,7 @@ Multilayer perceptron (MLP) is an artificial neural network with one or more hid
 
 ![](figures/mlp-network.png)
 
-Image from [(Karim, 2016)](https://dzone.com/articles/deep-learning-via-multilayer-perceptron-classifier).A multilayer perceptron with six input neurons, two hidden layers, and one output layer.
+Image from [(Karim, 2016)](https://dzone.com/articles/deep-learning-via-multilayer-perceptron-classifier). A multilayer perceptron with six input neurons, two hidden layers, and one output layer.
 
 This implementation of MLP was written using Python and TensorFlow for binary classification on breast cancer detection using the [Wisconsin diagnostic dataset](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)).
 
