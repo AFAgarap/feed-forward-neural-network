@@ -172,6 +172,7 @@ class MLP:
 
             except KeyboardInterrupt:
                 print('KeyboardInterrupt at step {}'.format(step))
+                os._exit(1)
             finally:
                 print('EOF -- Training done at step {}'.format(step))
 
@@ -192,6 +193,8 @@ class MLP:
 
                     self.save_labels(predictions=predictions, actual=actual, result_path=result_path, phase='testing',
                                      step=step)
+
+                print('EOF -- Testing done at step {}'.format(step))
 
     @staticmethod
     def weight_variable(name, shape):
