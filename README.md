@@ -4,6 +4,8 @@ multilayer-perceptron
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)]()
 [![PyPI](https://img.shields.io/pypi/pyversions/Django.svg)]()
 
+*This is a part of a recently-concluded research: [On Breast Cancer Detection: An Application of Machine Learning Algorithms on the Wisconsin Diagnostic Dataset](http://arxiv.org/abs/1711.07831) (September 2017 - November 2017)*.
+
 Multilayer perceptron (MLP) is an artificial neural network with one or more hidden layers. Conventionally, MLP consists of an input layer, at least one hidden or middle layer, then an output layer (Negnevitsky, 2005). Refer to the following figure:
 
 ![](figures/mlp-network.png)
@@ -107,11 +109,11 @@ The optimization algorithm used for this implementation of MLP was [stochastic g
 
 Before training and testing, the dataset was standardized using the `sklearn.preprocessing.StandardScaler().fit_transform()` function.
 
-The graph below summarizes the training and testing results. The training accuracy and loss are in color blue, while the testing accuracy and loss are in color red. 
+The graph below summarizes the training and testing results. The training accuracy and loss are in color blue, while the testing accuracy and loss are in color red.
 
 ![](figures/training_and_testing_results.png)
 
-The following is the truncated output of training loss and training accuracy for the MLP implementation: 
+The following is the truncated output of training loss and training accuracy for the MLP implementation:
 ```buildoutcfg
 step [100] train -- loss : 0.620643138885498, accuracy : 0.7000000476837158
 step [200] train -- loss : 0.6305786371231079, accuracy : 0.675000011920929
