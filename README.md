@@ -4,7 +4,7 @@ multilayer-perceptron
 ![](https://img.shields.io/badge/license-Apache--2.0-blue.svg)
 [![PyPI](https://img.shields.io/pypi/pyversions/Django.svg)]()
 
-*This is a part of a recently-concluded research: [On Breast Cancer Detection: An Application of Machine Learning Algorithms on the Wisconsin Diagnostic Dataset](http://arxiv.org/abs/1711.07831) (September 2017 - November 2017)*.
+*This is a part of a recently-concluded research: [On Breast Cancer Detection: An Application of Machine Learning Algorithms on the Wisconsin Diagnostic Dataset](http://arxiv.org/abs/1711.07831) (September 2017 - November 2017)* [[code](https://github.com/AFAgarap/wisconsin-breast-cancer)].
 
 Multilayer perceptron (MLP) is an artificial neural network with one or more hidden layers. Conventionally, MLP consists of an input layer, at least one hidden or middle layer, then an output layer (Negnevitsky, 2005). Refer to the following figure:
 
