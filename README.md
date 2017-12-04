@@ -3,6 +3,8 @@ multilayer-perceptron
 
 ![](https://img.shields.io/badge/license-Apache--2.0-blue.svg)
 [![PyPI](https://img.shields.io/pypi/pyversions/Django.svg)]()
+[![DOI](https://zenodo.org/badge/106004101.svg)](https://zenodo.org/badge/latestdoi/106004101)
+
 
 *This is a part of a recently-concluded research: [On Breast Cancer Detection: An Application of Machine Learning Algorithms on the Wisconsin Diagnostic Dataset](http://arxiv.org/abs/1711.07831) (September 2017 - November 2017)* [[code](https://github.com/AFAgarap/wisconsin-breast-cancer)].
 
