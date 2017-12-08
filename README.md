@@ -166,6 +166,20 @@ In words, the results were the following:
 
 The actual [TensorBoard log](https://github.com/afagarap/multilayer-perceptron/tree/master/log_path) is also included in this repository
 
+## Citation
+
+To cite the repository/software, kindly use the following BibTex entry:
+```
+@misc{abien_fred_agarap_2017_1077932,
+  author       = {Abien Fred Agarap},
+  title        = {AFAgarap/multilayer-perceptron v0.1-alpha},
+  month        = dec,
+  year         = 2017,
+  doi          = {10.5281/zenodo.1077932},
+  url          = {https://doi.org/10.5281/zenodo.1077932}
+}
+```
+
 ## License
 
 ```buildoutcfg
