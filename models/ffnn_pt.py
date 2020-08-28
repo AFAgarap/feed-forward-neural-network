@@ -72,7 +72,7 @@ class DNN(torch.nn.Module):
         """
         self.to(self.model_device)
         for epoch in range(epochs):
-            epoch_loss = epoch_train(self, data_loader)
+            epoch_loss = self.epoch_train(self, data_loader)
             if "cuda" in self.model_device.type:
                 torch.cuda.empty_cache()
             self.train_loss.append(epoch_loss)
@@ -100,34 +100,33 @@ class DNN(torch.nn.Module):
         predictions, classes = torch.max(outputs.data, dim=1)
         return (predictions, classes) if return_likelihoods else classes
 
+    def epoch_train(
+        self, model: torch.nn.Module, data_loader: torch.utils.data.DataLoader
+    ) -> float:
+        """
+        Trains a model for one epoch.
 
-def epoch_train(
-    model: torch.nn.Module, data_loader: torch.utils.data.DataLoader
-) -> float:
-    """
-    Trains a model for one epoch.
+        Parameters
+        ----------
+        model : torch.nn.Module
+            The model to train.
+        data_loader : torch.utils.dataloader.DataLoader
+            The data loader object that consists of the data pipeline.
 
-    Parameters
-    ----------
-    model : torch.nn.Module
-        The model to train.
-    data_loader : torch.utils.dataloader.DataLoader
-        The data loader object that consists of the data pipeline.
-
-    Returns
-    -------
-    epoch_loss : float
-        The epoch loss.
-    """
-    epoch_loss = 0
-    for batch_features, batch_labels in data_loader:
-        batch_features = batch_features.view(batch_features.shape[0], -1)
-        batch_features = batch_features.to(model.model_device)
-        batch_labels = batch_labels.to(model.model_device)
-        model.optimizer.zero_grad()
-        outputs = model(batch_features)
-        train_loss = model.criterion(outputs, batch_labels)
-        train_loss.backward()
-        model.optimizer.step()
-        epoch_loss += train_loss.item()
-    return epoch_loss
+        Returns
+        -------
+        epoch_loss : float
+            The epoch loss.
+        """
+        epoch_loss = 0
+        for batch_features, batch_labels in data_loader:
+            batch_features = batch_features.view(batch_features.shape[0], -1)
+            batch_features = batch_features.to(model.model_device)
+            batch_labels = batch_labels.to(model.model_device)
+            model.optimizer.zero_grad()
+            outputs = model(batch_features)
+            train_loss = model.criterion(outputs, batch_labels)
+            train_loss.backward()
+            model.optimizer.step()
+            epoch_loss += train_loss.item()
+        return epoch_loss
