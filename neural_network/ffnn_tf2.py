@@ -35,9 +35,9 @@ class DNN(tf.keras.Model):
 
         Parameters
         ----------
-        layers : list
+        layers: List
             The list of network units.
-        initializer : str
+        initializer: str
             The initializer to use for the hidden layers.
         """
         super().__init__()
@@ -66,11 +66,11 @@ class DNN(tf.keras.Model):
 
         Parameter
         ---------
-        features : object
+        features: tf.Tensor
             The input features.
         Returns
         -------
-        output : object
+        output: tf.Tensor
             The model output.
         """
         activations = []
@@ -88,11 +88,11 @@ class DNN(tf.keras.Model):
 
         Parameters
         ----------
-        data_loader : tf.data.Dataset
+        data_loader: tf.data.Dataset
             The data loader object that consists of the data pipeline.
-        epochs : int
+        epochs: int
             The number of epochs to train the model.
-        show_every : int
+        show_every: int
             Print training epoch every `show_every` interval.
         """
         for epoch in range(epochs):
@@ -105,18 +105,16 @@ class DNN(tf.keras.Model):
 
     def epoch_train(self, data_loader: tf.data.Dataset) -> float:
         """
-        Trains a model for one epoch.
+        Trains the model for one epoch.
 
         Parameters
         ----------
-        model : tf.keras.Model
-            The model to train.
-        data_loader : tf.data.Dataset
+        data_loader: tf.data.Dataset
             The data loader object that consists of the data pipeline.
 
         Returns
         -------
-        epoch_loss : float
+        epoch_loss: float
             The training epoch loss.
         """
         epoch_loss = []
