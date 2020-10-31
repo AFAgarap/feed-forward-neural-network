@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """Feed-Forward Neural Network"""
+from typing import List
 import tensorflow as tf
 
 __author__ = "Abien Fred Agarap"
@@ -26,7 +27,9 @@ class DNN(tf.keras.Model):
     softmax cross entropy using Adam optimizer.
     """
 
-    def __init__(self, layers=[512, 512], initializer="glorot_uniform", **kwargs):
+    def __init__(
+        self, layers: List = [512, 512], initializer: str = "glorot_uniform", **kwargs
+    ):
         """
         Constructs a feed-forward network classifier.
 
@@ -57,7 +60,7 @@ class DNN(tf.keras.Model):
         self.train_loss = []
 
     @tf.function
-    def call(self, features):
+    def call(self, features: tf.Tensor) -> tf.Tensor:
         """
         Defines the forward pass by the model.
 
@@ -79,7 +82,7 @@ class DNN(tf.keras.Model):
         output = self.output_layer(activations[-1])
         return output
 
-    def fit(self, data_loader, epochs, show_every: int = 2):
+    def fit(self, data_loader: tf.data.Dataset, epochs: int, show_every: int = 2):
         """
         Trains the feedforward network model.
 
@@ -100,7 +103,7 @@ class DNN(tf.keras.Model):
                     f"epoch {epoch + 1}/{epochs} : mean loss = {self.train_loss[-1]:.6f}"
                 )
 
-    def epoch_train(self, data_loader):
+    def epoch_train(self, data_loader: tf.data.Dataset) -> float:
         """
         Trains a model for one epoch.
 
