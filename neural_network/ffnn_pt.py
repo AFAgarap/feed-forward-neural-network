@@ -151,4 +151,4 @@ class DNN(torch.nn.Module):
             )
             epoch_loss += train_loss.item()
             epoch_accuracy += train_accuracy
-        return epoch_loss
+        return epoch_loss, epoch_accuracy
