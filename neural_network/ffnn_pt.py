@@ -51,7 +51,7 @@ class DNN(torch.nn.Module):
         self.criterion = torch.nn.CrossEntropyLoss().to(self.model_device)
         self.train_loss = []
 
-    def forward(self, features):
+    def forward(self, features: torch.Tensor) -> torch.Tensor:
         """
         Defines the forward pass by the model.
 
@@ -74,13 +74,13 @@ class DNN(torch.nn.Module):
         logits = activations[len(activations) - 1]
         return logits
 
-    def fit(self, data_loader, epochs):
+    def fit(self, data_loader: torch.utils.data.DataLoader, epochs: int):
         """
         Trains the neural network model.
 
         Parameters
         ----------
-        data_loader: torch.utils.dataloader.DataLoader
+        data_loader: torch.utils.data.DataLoader
             The data loader object that consists of the data pipeline.
         epochs: int
             The number of epochs to train the model.
@@ -93,7 +93,9 @@ class DNN(torch.nn.Module):
             self.train_loss.append(epoch_loss)
             print(f"epoch {epoch + 1}/{epochs} : mean loss = {self.train_loss[-1]:.6f}")
 
-    def predict(self, features, return_likelihoods=False):
+    def predict(
+        self, features: torch.Tensor, return_likelihoods: bool = False
+    ) -> torch.Tensor:
         """
         Returns model classifications
 
