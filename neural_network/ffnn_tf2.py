@@ -100,8 +100,7 @@ class DNN(tf.keras.Model):
                     f"epoch {epoch + 1}/{epochs} : mean loss = {self.train_loss[-1]:.6f}"
                 )
 
-    @staticmethod
-    def epoch_train(model, data_loader):
+    def epoch_train(self, data_loader):
         """
         Trains a model for one epoch.
 
@@ -120,10 +119,10 @@ class DNN(tf.keras.Model):
         epoch_loss = []
         for batch_features, batch_labels in data_loader:
             with tf.GradientTape() as tape:
-                outputs = model(batch_features)
-                train_loss = model.criterion(batch_labels, outputs)
+                outputs = self(batch_features)
+                train_loss = self.criterion(batch_labels, outputs)
                 epoch_loss.append(train_loss)
-            gradients = tape.gradient(train_loss, model.trainable_variables)
-            model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+            gradients = tape.gradient(train_loss, self.trainable_variables)
+            self.optimizer.apply_gradients(zip(gradients, self.trainable_variables))
         epoch_loss = tf.reduce_mean(epoch_loss)
         return epoch_loss
