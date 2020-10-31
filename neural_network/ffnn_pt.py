@@ -57,12 +57,12 @@ class DNN(torch.nn.Module):
 
         Parameter
         ---------
-        features : torch.Tensor
+        features: torch.Tensor
             The input features.
 
         Returns
         -------
-        logits : torch.Tensor
+        logits: torch.Tensor
             The model output.
         """
         activations = {}
@@ -80,9 +80,9 @@ class DNN(torch.nn.Module):
 
         Parameters
         ----------
-        data_loader : torch.utils.dataloader.DataLoader
+        data_loader: torch.utils.dataloader.DataLoader
             The data loader object that consists of the data pipeline.
-        epochs : int
+        epochs: int
             The number of epochs to train the model.
         """
         self.to(self.model_device)
@@ -121,12 +121,12 @@ class DNN(torch.nn.Module):
 
         Parameters
         ----------
-        data_loader : torch.utils.dataloader.DataLoader
+        data_loader: torch.utils.dataloader.DataLoader
             The data loader object that consists of the data pipeline.
 
         Returns
         -------
-        epoch_loss : float
+        epoch_loss: float
             The epoch loss.
         """
         epoch_loss = 0
