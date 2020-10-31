@@ -54,6 +54,7 @@ class DNN(tf.keras.Model):
         self.output_layer = tf.keras.layers.Dense(units=self.num_classes)
         self.criterion = tf.losses.CategoricalCrossentropy()
         self.optimizer = tf.optimizers.Adam(learning_rate=kwargs.get("learning_rate"))
+        self.train_loss = []
 
     @tf.function
     def call(self, features):
