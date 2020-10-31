@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """PyTorch implementation of a feed-forward neural network"""
+from typing import Tuple
 import torch
 
 __author__ = "Abien Fred Agarap"
@@ -121,7 +122,9 @@ class DNN(torch.nn.Module):
         predictions, classes = torch.max(outputs.data, dim=1)
         return (predictions, classes) if return_likelihoods else classes
 
-    def epoch_train(self, data_loader: torch.utils.data.DataLoader) -> float:
+    def epoch_train(
+        self, data_loader: torch.utils.data.DataLoader
+    ) -> Tuple[float, float]:
         """
         Trains a model for one epoch.
 
