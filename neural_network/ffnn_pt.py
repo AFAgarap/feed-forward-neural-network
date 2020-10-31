@@ -88,11 +88,14 @@ class DNN(torch.nn.Module):
         """
         self.to(self.model_device)
         for epoch in range(epochs):
-            epoch_loss = self.epoch_train(self, data_loader)
+            epoch_loss, epoch_accuracy = self.epoch_train(self, data_loader)
             if "cuda" in self.model_device.type:
                 torch.cuda.empty_cache()
             self.train_loss.append(epoch_loss)
-            print(f"epoch {epoch + 1}/{epochs} : mean loss = {self.train_loss[-1]:.6f}")
+            print(f"epoch {epoch + 1}/{epochs}")
+            print(
+                f"\tmean loss = {self.train_loss[-1]:.4f}\t|\tmean accuracy = {self.train_accuracy[-1]:.4f}"
+            )
 
     def predict(
         self, features: torch.Tensor, return_likelihoods: bool = False
