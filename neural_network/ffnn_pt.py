@@ -137,6 +137,8 @@ class DNN(torch.nn.Module):
         -------
         epoch_loss: float
             The epoch loss.
+        epoch_accuracy: float
+            The epoch accuracy.
         """
         epoch_loss = 0
         epoch_accuracy = 0
