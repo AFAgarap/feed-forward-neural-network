@@ -40,8 +40,8 @@ class DNN(tf.keras.Model):
         super().__init__()
         self.num_layers = len(layers)
         self.hidden_layers = []
-        self.num_classes = kwargs["num_classes"]
-        self.activation = kwargs["activation"]
+        self.num_classes = kwargs.get("num_classes")
+        self.activation = kwargs.get("activation")
 
         for index in range(self.num_layers):
             layer = tf.keras.layers.Dense(
