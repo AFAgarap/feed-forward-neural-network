@@ -20,7 +20,7 @@ __author__ = "Abien Fred Agarap"
 __version__ = "1.0.0"
 
 
-class NeuralNet(tf.keras.Model):
+class DNN(tf.keras.Model):
     """
     A feed-forward neural network that optimizes
     softmax cross entropy using Adam optimizer.
@@ -37,7 +37,7 @@ class NeuralNet(tf.keras.Model):
         initializer : str
             The initializer to use for the hidden layers.
         """
-        super(NeuralNet, self).__init__()
+        super().__init__()
         self.num_layers = len(layers)
         self.hidden_layers = []
         self.num_classes = kwargs["num_classes"]
