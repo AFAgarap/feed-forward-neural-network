@@ -52,6 +52,7 @@ class DNN(tf.keras.Model):
             self.hidden_layers.append(layer)
 
         self.output_layer = tf.keras.layers.Dense(units=self.num_classes)
+        self.criterion = tf.losses.CategoricalCrossentropy()
 
     @tf.function
     def call(self, features):
