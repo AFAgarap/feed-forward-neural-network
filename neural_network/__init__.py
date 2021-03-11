@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """PyTorch implementation of a feed-forward neural network"""
-from typing import Tuple
+from typing import List, Tuple
 import torch
 
 __author__ = "Abien Fred Agarap"
@@ -25,7 +25,7 @@ class DNN(torch.nn.Module):
     def __init__(
         self,
         device: torch.device = torch.device("cuda:0"),
-        units: list or tuple = [(784, 500), (500, 500), (500, 10)],
+        units: List or Tuple = [(784, 500), (500, 500), (500, 10)],
         learning_rate: float = 1e-4,
     ):
         """
