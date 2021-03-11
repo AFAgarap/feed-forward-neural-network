@@ -33,7 +33,7 @@ class DNN(torch.nn.Module):
 
         Parameters
         ----------
-        model_device: torch.device
+        device: torch.device
             The device to use for model computations.
         units: list or tuple
             An iterable that consists of the number of units in each hidden layer.
