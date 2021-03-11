@@ -52,6 +52,7 @@ class DNN(torch.nn.Module):
         self.train_loss = []
         self.train_accuracy = []
         self.device = device
+        self.to(self.device)
 
     def forward(self, features: torch.Tensor) -> torch.Tensor:
         """
