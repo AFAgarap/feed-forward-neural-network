@@ -24,7 +24,7 @@ __version__ = "1.0.0"
 class DNN(torch.nn.Module):
     def __init__(
         self,
-        model_device: torch.device = torch.device("cpu"),
+        model_device: torch.device = torch.device("cuda:0"),
         units: list or tuple = [(784, 500), (500, 500), (500, 10)],
         learning_rate: float = 1e-4,
     ):
