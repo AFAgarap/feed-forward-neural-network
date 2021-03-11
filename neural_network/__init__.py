@@ -24,7 +24,7 @@ __version__ = "1.0.0"
 class DNN(torch.nn.Module):
     def __init__(
         self,
-        model_device: torch.device = torch.device("cuda:0"),
+        device: torch.device = torch.device("cuda:0"),
         units: list or tuple = [(784, 500), (500, 500), (500, 10)],
         learning_rate: float = 1e-4,
     ):
@@ -41,7 +41,6 @@ class DNN(torch.nn.Module):
             The learning rate to use for optimization.
         """
         super().__init__()
-        self.model_device = model_device
         self.layers = torch.nn.ModuleList(
             [
                 torch.nn.Linear(in_features=in_features, out_features=out_features)
@@ -52,6 +51,7 @@ class DNN(torch.nn.Module):
         self.criterion = torch.nn.CrossEntropyLoss().to(self.model_device)
         self.train_loss = []
         self.train_accuracy = []
+        self.device = device
 
     def forward(self, features: torch.Tensor) -> torch.Tensor:
         """
