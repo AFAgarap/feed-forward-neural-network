@@ -35,7 +35,7 @@ class DNN(torch.nn.Module):
         ----------
         device: torch.device
             The device to use for model computations.
-        units: list or tuple
+        units: List or Tuple
             An iterable that consists of the number of units in each hidden layer.
         learning_rate: float
             The learning rate to use for optimization.
