@@ -48,7 +48,7 @@ class DNN(torch.nn.Module):
             ]
         )
         self.optimizer = torch.optim.Adam(params=self.parameters(), lr=learning_rate)
-        self.criterion = torch.nn.CrossEntropyLoss().to(self.model_device)
+        self.criterion = torch.nn.CrossEntropyLoss()
         self.train_loss = []
         self.train_accuracy = []
         self.device = device
@@ -88,12 +88,10 @@ class DNN(torch.nn.Module):
         epochs: int
             The number of epochs to train the model.
         """
-        self.to(self.model_device)
         for epoch in range(epochs):
-            epoch_loss, epoch_accuracy = self.epoch_train(self, data_loader)
-            if "cuda" in self.model_device.type:
-                torch.cuda.empty_cache()
+            epoch_loss, epoch_accuracy = self.epoch_train(data_loader)
             self.train_loss.append(epoch_loss)
+            self.train_accuracy.append(epoch_accuracy)
             print(f"epoch {epoch + 1}/{epochs}")
             print(
                 f"\tmean loss = {self.train_loss[-1]:.4f}\t|\tmean accuracy = {self.train_accuracy[-1]:.4f}"
@@ -145,8 +143,8 @@ class DNN(torch.nn.Module):
         epoch_accuracy = 0
         for batch_features, batch_labels in data_loader:
             batch_features = batch_features.view(batch_features.shape[0], -1)
-            batch_features = batch_features.to(self.model_device)
-            batch_labels = batch_labels.to(self.model_device)
+            batch_features = batch_features.to(self.device)
+            batch_labels = batch_labels.to(self.device)
             self.optimizer.zero_grad()
             outputs = self(batch_features)
             train_loss = self.criterion(outputs, batch_labels)
