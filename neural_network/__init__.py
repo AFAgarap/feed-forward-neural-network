@@ -90,8 +90,6 @@ class DNN(torch.nn.Module):
         """
         for epoch in range(epochs):
             epoch_loss, epoch_accuracy = self.epoch_train(self, data_loader)
-            if "cuda" in self.model_device.type:
-                torch.cuda.empty_cache()
             self.train_loss.append(epoch_loss)
             print(f"epoch {epoch + 1}/{epochs}")
             print(
