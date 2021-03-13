@@ -91,6 +91,7 @@ class DNN(torch.nn.Module):
         for epoch in range(epochs):
             epoch_loss, epoch_accuracy = self.epoch_train(data_loader)
             self.train_loss.append(epoch_loss)
+            self.train_accuracy.append(epoch_accuracy)
             print(f"epoch {epoch + 1}/{epochs}")
             print(
                 f"\tmean loss = {self.train_loss[-1]:.4f}\t|\tmean accuracy = {self.train_accuracy[-1]:.4f}"
