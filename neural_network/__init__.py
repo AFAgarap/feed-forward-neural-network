@@ -48,7 +48,7 @@ class DNN(torch.nn.Module):
             ]
         )
         self.optimizer = torch.optim.Adam(params=self.parameters(), lr=learning_rate)
-        self.criterion = torch.nn.CrossEntropyLoss().to(self.model_device)
+        self.criterion = torch.nn.CrossEntropyLoss()
         self.train_loss = []
         self.train_accuracy = []
         self.device = device
