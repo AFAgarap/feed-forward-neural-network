@@ -25,5 +25,5 @@ __version__ = "2.0.0"
 
 train_data, test_data = load_dataset("wdbc")
 train_loader = create_dataloader(train_data, batch_size=32, num_workers=4)
-model = DNN()
+model = DNN(units=((30, 100), (100, 100), (100, 2)))
 model.fit(train_loader, epochs=100)
