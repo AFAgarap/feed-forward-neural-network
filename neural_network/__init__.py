@@ -142,8 +142,8 @@ class DNN(torch.nn.Module):
         epoch_accuracy = 0
         for batch_features, batch_labels in data_loader:
             batch_features = batch_features.view(batch_features.shape[0], -1)
-            batch_features = batch_features.to(self.model_device)
-            batch_labels = batch_labels.to(self.model_device)
+            batch_features = batch_features.to(self.device)
+            batch_labels = batch_labels.to(self.device)
             self.optimizer.zero_grad()
             outputs = self(batch_features)
             train_loss = self.criterion(outputs, batch_labels)
