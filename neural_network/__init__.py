@@ -89,7 +89,7 @@ class DNN(torch.nn.Module):
             The number of epochs to train the model.
         """
         for epoch in range(epochs):
-            epoch_loss, epoch_accuracy = self.epoch_train(self, data_loader)
+            epoch_loss, epoch_accuracy = self.epoch_train(data_loader)
             self.train_loss.append(epoch_loss)
             print(f"epoch {epoch + 1}/{epochs}")
             print(
