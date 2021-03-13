@@ -88,7 +88,6 @@ class DNN(torch.nn.Module):
         epochs: int
             The number of epochs to train the model.
         """
-        self.to(self.model_device)
         for epoch in range(epochs):
             epoch_loss, epoch_accuracy = self.epoch_train(self, data_loader)
             if "cuda" in self.model_device.type:
