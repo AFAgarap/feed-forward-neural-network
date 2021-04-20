@@ -2,4 +2,4 @@ matplotlib==3.3.0
 numpy==1.19.4
 scikit_learn==0.23.2
 torch==1.8.0
-pt-datasets==0.11.16
+pt-datasets==0.11.17
