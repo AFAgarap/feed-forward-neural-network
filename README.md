@@ -1,5 +1,7 @@
 # multilayer-perceptron
 
+_Notice: This repository is now retired, and has been migrated to [GitLab](https://gitlab.com/afagarap/pt-datasets) due to GitHub Copilot._
+
 ![](https://img.shields.io/badge/license-Apache--2.0-blue.svg)
 [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-377/)
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-382/)
